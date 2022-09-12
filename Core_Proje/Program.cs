@@ -34,6 +34,7 @@ builder.Services.AddMvc(config =>
 builder.Services.ConfigureApplicationCookie(cong =>
 {
     cong.LoginPath = "/Writer/Login/Index/";
+    cong.AccessDeniedPath = "/ErrorPage/Index/";
     cong.Cookie.HttpOnly = true;
     cong.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     cong.Cookie.MaxAge = cong.ExpireTimeSpan; // optional
