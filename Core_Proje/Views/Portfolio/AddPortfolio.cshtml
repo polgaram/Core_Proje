@@ -1,0 +1,100 @@
+﻿@model Portfolio
+@{
+    ViewData["Title"] = "AddPortfolio";
+    Layout = "~/Views/Shared/_NewAdminLayout.cshtml";
+}
+
+<div class="card-header border-0">
+    <h3 class="mb-0">Proje Ekleme Sayfası</h3>
+</div>
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+
+            <form asp-controller="Portfolio" asp-action="AddPortfolio" class="card-header bg-black" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="ShortImageUrl" class="control-label"></label>
+                        <input asp-for="ShortImageUrl" class="form-control" />
+                        <span asp-validation-for="ShortImageUrl" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="LongImageUrl" class="control-label"></label>
+                        <input asp-for="LongImageUrl" class="form-control" />
+                        <span asp-validation-for="LongImageUrl" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ProjectUrl" class="control-label"></label>
+                    <input asp-for="ProjectUrl" class="form-control" />
+                    <span asp-validation-for="ProjectUrl" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Image1" class="control-label"></label>
+                        <input asp-for="Image1" class="form-control" />
+                        <span asp-validation-for="Image1" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Image2" class="control-label"></label>
+                        <input asp-for="Image2" class="form-control" />
+                        <span asp-validation-for="Image2" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Image3" class="control-label"></label>
+                        <input asp-for="Image3" class="form-control" />
+                        <span asp-validation-for="Image3" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Image4" class="control-label"></label>
+                        <input asp-for="Image4" class="form-control" />
+                        <span asp-validation-for="Image4" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Platform" class="control-label"></label>
+                    <input asp-for="Platform" class="form-control" />
+                    <span asp-validation-for="Platform" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="form-check form-check-flat form-check-primary">
+                    <label asp-for="Status" class="form-check-label">
+                        <input asp-for="Status" type="checkbox" class="form-check-input" checked> Status <i class="input-helper"></i>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Value" class="control-label"></label>
+                    <input asp-for="Value" class="form-control" />
+                    <span asp-validation-for="Value" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Kaydet" class="btn btn-outline-success" />
+                    <a href="javascript:history.back()" type="button" class="btn btn-outline-danger">İptal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

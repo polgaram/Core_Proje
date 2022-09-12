@@ -1,0 +1,24 @@
+﻿@model WriterMessage
+@{
+    ViewData["Title"] = "ReceiverMessageDetails";
+    Layout = "~/Views/Shared/_WriterLayout.cshtml";
+}
+
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h2>Gelen Mesaj Detayları</h2>
+
+            <p class="card-description">
+                @Model.Date.ToString("dd.MMM.yyyy") - Kimden:
+                (@Model.SenderName)
+                <a href="#">@Model.Sender</a>
+                &nbsp;<i class="ti-user"></i>
+            </p>
+            <p style="white-space: pre-line">
+                @Model.MessageContent
+            </p>
+        </div>
+    </div>
+</div>
+

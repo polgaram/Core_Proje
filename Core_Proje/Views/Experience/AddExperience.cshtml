@@ -1,0 +1,75 @@
+﻿@model Experience
+@{
+    ViewData["Title"] = "AddExperience";
+    Layout = "~/Views/Shared/_NewAdminLayout.cshtml";
+}
+
+<div class="card-header border-0">
+    <h3 class="mb-0">Deneyim Ekleme Sayfası</h3>
+</div>
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+
+            <form asp-controller="Experience" asp-action="AddExperience" class="card-header bg-black" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label"></label>
+                    <input asp-for="Date" class="form-control" type="date" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ImageUrl" class="control-label"></label>
+                    <input asp-for="ImageUrl" class="form-control" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" rows="10" cols="3"
+                              data-val-maxlength-max="5000"
+                              data-val-maxlength="The field Description must be a string or array type with a maximum length of '5000'."
+                              class="form-control"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Kaydet" class="btn btn-outline-success" />
+                    <a href="javascript:history.back()" type="button" class="btn btn-outline-danger">İptal</a>
+                </div>
+
+
+                @*@Html.Label("Deneyim Adı")
+                @Html.TextBoxFor(x=>x.Name,new{@class="form-control"})
+                <br />
+                @Html.Label("Başlık")
+                @Html.TextBoxFor(x=>x.Title,new{@class="form-control"})
+                <br />
+                @Html.Label("Tarih")
+                @Html.TextBoxFor(x=>x.Date,new{@class="form-control",@type="date"})
+                <br />
+                @Html.Label("Resim Yolu")
+                @Html.TextBoxFor(x=>x.ImageUrl,new{@class="form-control"})
+                <br />
+                @Html.Label("Açıklama")
+                @Html.TextAreaFor(x=>x.Description,10,3,new{@class = "form-control"})
+                <br />
+                <button type="submit" class="btn btn-primary">Kaydet</button>*@
+            </form>
+        </div>
+    </div>
+</div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

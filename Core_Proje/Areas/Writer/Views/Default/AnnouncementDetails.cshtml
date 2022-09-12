@@ -1,0 +1,21 @@
+﻿@model Announcement
+@{
+    ViewData["Title"] = "AnnouncementDetails";
+    Layout = "~/Views/Shared/_WriterLayout.cshtml";
+}
+
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h2>Duyuru Detayları</h2>
+            <br />
+            <h4 class="card-title">ID: @Model.ID</h4>
+            <p class="card-description">
+                @Model.Date.ToString("dd.MMM.yyyy")
+            </p>
+            <p style="white-space: pre-line">
+                @Model.Content
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@model List<Skill>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_NewAdminLayout.cshtml";
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Yetenek Listesi Tablosu</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Başlık</th>
+                            <th>Oran</th>
+                            <th>Sil</th>
+                            <th>Düzenle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.SkillID</td>
+                                <td>@item.Title</td>
+                                <td>
+                                        <span class="completion">@item.Value%</span>
+                                         @{
+                                            var status = string.Empty;
+                                            int deger = Convert.ToInt32(@item.Value);
+                                        }
+                                    <div class="progress">
+                                        @{
+                                                if (deger <= 19)
+                                                {
+                                                    status = "danger";
+                                                }
+                                                else if (deger >= 20 && deger <= 39)
+                                                {
+                                                    status = "warning";
+                                                }
+                                                else if (deger >= 40 && deger <= 59)
+                                                {
+                                                    status = "primary";
+                                                }
+                                                else if (deger >= 60 && deger <= 79)
+                                                {
+                                                    status = "info";
+                                                }
+                                                else if (deger >= 80 && deger <= 100)
+                                                {
+                                                    status = "success";
+                                                }
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: @item.Value%" aria-valuenow="@item.Value" aria-valuemin="0" aria-valuemax="100"></div>
+                                        }
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="/Skill/DeleteSkill/@item.SkillID" class="btn btn-outline-danger btn-icon-text">
+                                        <i class="mdi mdi-delete btn-icon-prepend"></i> Sil
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/Skill/EditSkill/@item.SkillID" class="btn btn-outline-primary btn-icon-text">
+                                        <i class="mdi mdi-grease-pencil btn-icon-prepend"></i> Düzenle
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <a href="/Skill/AddSkill" class="btn btn-outline-info btn-icon-text m-4">
+                    <i class="mdi mdi-library-plus btn-icon-prepend"></i> Yeni Deneyim Ekle
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

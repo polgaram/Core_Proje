@@ -1,0 +1,38 @@
+﻿@model List<WriterMessage>
+@{
+    ViewData["Title"] = "SenderMessageList";
+    Layout = "~/Views/Shared/_NewAdminLayout.cshtml";
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Giden Mesajlar Kutusu</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Konu</th>
+                            <th>Tarih</th>
+                            <th>Alıcı</th>
+                            <th>Detaylar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th>@item.WriterMessageID</th>
+                                <td>@item.Subject</td>
+                                <td>@item.Date.ToString("dd-MMM-yyyy")</td>
+                                <td>@item.ReceiverName</td>
+                                <td><a href="/AdminMessage/SenderMessageDetails/@item.WriterMessageID" class="btn btn-outline-info btn-rounded btn-fw"><i class="mdi mdi-eye btn-icon-prepend"></i>Mesajı Gör</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

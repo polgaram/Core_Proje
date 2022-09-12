@@ -1,0 +1,44 @@
+﻿@model WriterMessage
+@{
+    ViewData["Title"] = "SendMessage";
+    Layout = "~/Views/Shared/_NewAdminLayout.cshtml";
+}
+
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h2>Yeni Mesaj Oluşturma Sayfası</h2>
+            <br />
+            <form class="form-group" method="post">
+                <div class="form-group">
+                    <label asp-for="Receiver">Kime</label>
+                    <input asp-for="Receiver" type="text" placeholder="Alıcı Mail" class="form-control" />
+                    <span asp-validation-for="Receiver" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Subject">Konu</label>
+                    <input asp-for="Subject" type="text" placeholder="Konu" class="form-control" />
+                    <span asp-validation-for="Subject" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MessageContent">Mesaj</label>
+                    <textarea asp-for="MessageContent" rows="10" cols="3" class="form-control"></textarea>
+                    <span asp-validation-for="MessageContent" class="text-danger"></span>
+                </div>
+
+                <button class="btn btn-outline-success">Gönder</button>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+
+

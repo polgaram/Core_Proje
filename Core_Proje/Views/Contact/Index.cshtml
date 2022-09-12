@@ -1,0 +1,68 @@
+﻿@model List<Message>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_NewAdminLayout.cshtml";
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+<div class="card">
+        <div class="card-body">
+        <h4 class="card-title">Mesajlar Listesi</h4>
+
+        <form method="get">
+
+                <div class="input-group">
+                    <input type="text" name="ContactMail" class="form-control" placeholder="Aranacak mail adresi..." aria-label="Aranacak mail adresi..." aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-outline-info" type="submit">Ara</button>
+                    </div>
+                </div>   
+        </form>
+
+
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Ad</th>
+                        <th>Mail</th>
+                        <th>Tarih</th>
+                        <th>Durum</th>
+                        <th>Mesajı Gör</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.MessageID</td>
+                            <td>@item.Name</td>
+                            <td>@item.Mail</td>
+                            <td>@item.Date.ToString("dd-MMM-yyyy")</td>
+                            <td>@item.Status</td>
+
+                            <td>
+                                    <a href="/Contact/ContactDetails/@item.MessageID" class="btn btn-outline-info btn-rounded btn-fw">
+                                    <i class="mdi mdi-eye btn-icon-prepend"></i> Mesajı Gör
+                                </a>
+                            </td>
+
+                            <td>
+                                    <a href="/Contact/DeleteContact/@item.MessageID" class="btn btn-outline-danger btn-icon-text">
+                                    <i class="mdi mdi-delete btn-icon-prepend"></i> Sil
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
