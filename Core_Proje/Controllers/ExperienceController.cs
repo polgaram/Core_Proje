@@ -46,7 +46,7 @@ namespace Core_Proje.Controllers
         [HttpGet]
         public IActionResult EditExperience(int id)
         {
-            ViewBag.v1 = "Deneyim Güncelleme";
+            ViewBag.v1 = "Deneyim Düzenleme";
             ViewBag.v2 = "Deneyimler";
             ViewBag.Url = "/Experience/Index";
             var values = _experienceService.TGetByID(id);
