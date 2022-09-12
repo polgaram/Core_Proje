@@ -14,12 +14,7 @@
                         <tr>
                             <th>#</th>
                             <th>Ad</th>
-                            <th>ResimUrl</th>
-                            <th>İkon</th>
-                            <th>Durum</th>
-                            <th>Ekle</th>
-                            <th>Düzenle</th>
-                            <th>Sil</th>
+                            <th>Operasyon</th>
                             
                         </tr>
                     </thead>
@@ -29,17 +24,13 @@
                             <tr>
                                 <td>@item.SocialMediaID</td>
                                 <td>@item.Name</td>
-                                <td>@item.Url</td>
-                                <td>@item.Icon</td>
-                                <td>@item.Status</td>
 
                                 <td>
-                                    <a href="/Experience/EditExperience/@item.SocialMediaID" class="btn btn-outline-primary btn-icon-text">
+                                    <a href="/SocialMedia/EditSocialMedia/@item.SocialMediaID" class="btn btn-outline-primary btn-icon-text">
                                         <i class="mdi mdi-grease-pencil btn-icon-prepend"></i> Düzenle
                                     </a>
-                                </td>
-                                <td>
-                                    <a href="/Experience/DeleteExperience/@item.SocialMediaID" class="btn btn-outline-danger btn-icon-text">
+                                    &nbsp;
+                                    <a href="/SocialMedia/DeleteSocialMedia/@item.SocialMediaID" class="btn btn-outline-danger btn-icon-text">
                                         <i class="mdi mdi-delete btn-icon-prepend"></i> Sil
                                     </a>
                                 </td>
@@ -47,7 +38,7 @@
                         }
                     </tbody>
                 </table>
-                <a href="/Experience/AddExperience" class="btn btn-outline-info btn-icon-text m-4">
+                <a href="/SocialMedia/AddSocialMedia" class="btn btn-outline-info btn-icon-text m-4">
                     <i class="mdi mdi-library-plus btn-icon-prepend"></i> Yeni Hesap Ekle
                 </a>
             </div>
