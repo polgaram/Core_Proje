@@ -11,7 +11,6 @@ namespace Core_Proje.Areas.Writer.Controllers
     [Area("Writer")]
     //[Route("Writer/Message")]
     [Route("Writer/{controller}/{action}/{id?}")]
-    [Authorize]
     public class MessageController : Controller
     {
         private readonly IWriterMessageService _writerMessageService;

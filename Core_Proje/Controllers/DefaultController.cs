@@ -2,10 +2,12 @@
 using BusinessLayer.Concrete;
 using DataAccsessLayer.EntityFramework;
 using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core_Proje.Controllers
 {
+    [AllowAnonymous]
     public class DefaultController : Controller
     {
         private readonly IMessageService _messageService;

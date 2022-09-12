@@ -1,79 +1,54 @@
+using BusinessLayer;
 using BusinessLayer.Abstract;
 using BusinessLayer.Concrete;
+using DataAccsessLayer;
 using DataAccsessLayer.Abstract;
 using DataAccsessLayer.Concrete;
 using DataAccsessLayer.EntityFramework;
+using DataAccsessLayer.IdentityConfigurations;
 using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<Context>();
+builder.Services.AddIdentityLayer(builder.Configuration);
+builder.Services.AddApplication();
 
-builder.Services.AddScoped<IAnnouncementService, AnnouncementManager>();
-builder.Services.AddScoped<IAnnouncementDal, EfAnnouncementDal>();
-
-builder.Services.AddScoped<IAboutService, AboutManager>();
-builder.Services.AddScoped<IAboutDal, EfAboutDal>();
-
-builder.Services.AddScoped<IMessageService, MessageManager>();
-builder.Services.AddScoped<IMessageDal, EfMessageDal>();
-
-builder.Services.AddScoped<IExperienceService, ExperienceManager>();
-builder.Services.AddScoped<IExperienceDal, EfExperienceDal>();
-
-builder.Services.AddScoped<IFeatureService, FeatureManager>();
-builder.Services.AddScoped<IFeatureDal, EfFeatureDal>();
-
-builder.Services.AddScoped<IPortfolioService, PortfolioManager>();
-builder.Services.AddScoped<IPortfolioDal, EfPortfolioDal>();
-
-builder.Services.AddScoped<IServiceService, ServiceManager>();
-builder.Services.AddScoped<IServiceDal, EfServiceDal>();
-
-builder.Services.AddScoped<ISkillService, SkillManager>();
-builder.Services.AddScoped<ISkillDal, EfSkillDal>();
-
-builder.Services.AddScoped<IContactService, ContactManager>();
-builder.Services.AddScoped<IContactDal, EfContactDal>();
-
-builder.Services.AddScoped<IToDoListService, ToDoListManager>();
-builder.Services.AddScoped<IToDoListDal, EfToDoListDal>();
-
-builder.Services.AddScoped<ITestimonialService, TestimonialManager>();
-builder.Services.AddScoped<ITestimonialDal, EfTestimonialDal>();
-
-builder.Services.AddScoped<IWriterMessageService, WriterMessageManager>();
-builder.Services.AddScoped<IWriterMessageDal, EfWriterMessageDal>();
-
-builder.Services.AddScoped<ISocialMediaService, SocialMediaManager>();
-builder.Services.AddScoped<ISocialMediaDal, EfSocialMediaDal>();
-
-
-
-builder.Services.AddIdentity<WriterUser, WriterRole>(ops =>
+builder.Services.AddMvc(config =>
 {
-    ops.Password.RequiredLength = 6;
-    ops.Password.RequireLowercase = true; //küçük harf
-    ops.Password.RequireNonAlphanumeric = true; //?_ gibi birþey bekle
-    ops.Password.RequireUppercase = true;//büyük harf bekle
-    ops.Password.RequireDigit = true; //0-9 arasý bir sayý
+    var policy = new AuthorizationPolicyBuilder()
+    .RequireAuthenticatedUser()
+    .Build();
+    config.Filters.Add(new AuthorizeFilter(policy));
 
-    ops.Lockout.MaxFailedAccessAttempts = 5;//max hatalý giriþ sayýsý
-    ops.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);//kullanýcý ne kadar süre boyunca sisteme giriþ yapamasýn
-
-    ops.User.RequireUniqueEmail = true;
-
-}).AddEntityFrameworkStores<Context>();
+});
 
 builder.Services.ConfigureApplicationCookie(cong =>
 {
-    cong.LoginPath = "/Writer/Login/Index";
+    cong.LoginPath = "/Writer/Login/Index/";
+    cong.Cookie.HttpOnly = true;
+    cong.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    cong.Cookie.MaxAge = cong.ExpireTimeSpan; // optional
+    cong.SlidingExpiration = true;
 });
 
+builder.Services.AddScoped<InitialIdentityData, InitialIdentityData>();
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+
+    InitialIdentityData ýnitialIdentityData = scope.ServiceProvider.GetRequiredService<InitialIdentityData>();
+    await ýnitialIdentityData.Do();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

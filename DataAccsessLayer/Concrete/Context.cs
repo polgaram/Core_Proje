@@ -11,10 +11,10 @@ namespace DataAccsessLayer.Concrete
 {
     public class Context : IdentityDbContext<WriterUser, WriterRole, int>
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public Context(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseSqlServer(@"server=DESKTOP-DHH6076\SQLEXPRESS;database=CoreProjeDB;integrated security=true");
         }
+
         public DbSet<About> Abouts { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Experience> Expreriences { get; set; }

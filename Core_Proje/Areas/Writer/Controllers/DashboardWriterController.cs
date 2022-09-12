@@ -9,7 +9,6 @@ namespace Core_Proje.Areas.Writer.Controllers
 {
     [Area("Writer")]
     [Route("Writer/{controller}/{action}/{id?}")]
-    [Authorize]
     public class DashboardWriterController : Controller
     {
         private readonly UserManager<WriterUser> _userManager;
