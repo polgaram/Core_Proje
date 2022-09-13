@@ -54,6 +54,9 @@ namespace BusinessLayer
 
             Services.AddScoped<ISocialMediaService, SocialMediaManager>();
             Services.AddScoped<ISocialMediaDal, EfSocialMediaDal>();
+
+            Services.AddScoped<IWriterService, WriterManager>();
+            Services.AddScoped<IWriterDal, EfWriterDal>();
         }
     }
 }
