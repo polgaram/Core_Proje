@@ -7,6 +7,7 @@ using DataAccsessLayer.Concrete;
 using DataAccsessLayer.EntityFramework;
 using DataAccsessLayer.IdentityConfigurations;
 using EntityLayer.Concrete;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,7 +18,8 @@ using System.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+//builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Program>());
 
 builder.Services.AddIdentityLayer(builder.Configuration);
 builder.Services.AddApplication();
@@ -56,6 +58,9 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
 }
+
+app.UseStatusCodePages();
+
 app.UseStaticFiles();
 
 app.UseRouting();

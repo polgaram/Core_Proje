@@ -1,40 +1,115 @@
-﻿@model List<Experience>
+﻿@model Experience
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_NewAdminLayout.cshtml";
 }
 
-<div class="col-md-6">
-    <div class="p-2">
-        <button type="button" id="btngetlistall" class="btn btn-outline-primary">Verileri Getir</button>
-        <button type="button" id="btnadd" class="btn btn-outline-info">Kaydet</button>
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Deneyimler</h4>
+
+
+            <div class="p-2">
+                <button type="button" class="btn btn-outline-primary" onclick="getAllExperience();">Verileri Getir</button>
+                <button type="button" class="btn btn-outline-warning" onclick="gizleGoster('filtrele');">Filtre Paneli</button>
+                <button type="button" class="btn btn-outline-secondary" onclick="gizleGoster('eklemePaneli');">Ekleme Paneli</button>
+                <button type="button" class="btn btn-outline-info" onclick="gizleGoster('güncellemePaneli');">Güncelleme Paneli</button>
+                <button type="button" class="btn btn-outline-danger" onclick="gizleGoster('silmepaneli');">Silme Paneli</button>
+            </div>
+            <div class="col-md-12" style="display: none;" id="filtrele">
+                <br />
+                <h4>Arama Paneli</h4>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inpid" placeholder="ID Giriniz..." aria-label="ID Giriniz..." aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-sm btn-warning" type="button" onclick="getById();">Getir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12" style="display: none;" id="eklemePaneli">
+                <br />
+                <h4>Ekleme Paneli</h4>
+                <input type="text" class="form-control" id="inpname" placeholder="Ad" />
+                <br />
+                <input type="text" class="form-control" id="inptitle" placeholder="Başlık" />
+                <br />
+                <input type="text" class="form-control" id="inpdate" placeholder="Tarih" />
+                <br />
+                <button type="button" class="btn btn-outline-success" onclick="saveExperience();">Kaydet</button>
+                <br /><br />
+            </div>
+
+            <div class="col-md-12" style="display: none;" id="güncellemePaneli">
+                <br />
+                <h4>Güncelleme Paneli</h4>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inpupdateid" placeholder="ID Giriniz..." aria-label="ID Giriniz..." aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-sm btn-info" type="button" onclick="getById2();">Getir</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <input type="text" class="form-control" id="inpupdatename" placeholder="Ad" />
+                <br />
+                <input type="text" class="form-control" id="inpupdatetitle" placeholder="Başlık" />
+                <br />
+                <input type="text" class="form-control" id="inpupdatedate" placeholder="Tarih" />
+                <br />
+                <button type="button" class="btn btn-outline-info" onclick="updateExperience();">Güncelle</button>
+                <br /><br />
+            </div>
+
+            <div class="col-md-12" style="display: none;" id="silmepaneli">
+                <br />
+                <h4>Silme Paneli</h4>
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inpdeleteid" placeholder="ID Giriniz..." aria-label="ID Giriniz..." aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-sm btn-danger" type="button" onclick="removeExperience();">Sil</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-2" id="listexperience"></div>
+        </div>
     </div>
 </div>
-
-<div class="p-2" id="listuser">
-    buraya veriler gelecek
-</div>
-
-<br />
-
-<div class="col-md-12">
-    <input type="text" class="form-control" id="inpname" placeholder="Ad" />
-    <br />
-    <input type="text" class="form-control" id="inpsurname" placeholder="Soyad" />
-    <br />
-    <input type="text" class="form-control" id="inpusername" placeholder="Kullanıcı Adı" />
-    <br />
-    <input type="text" class="form-control" id="inpmail" placeholder="Mail" />
-    <br />
-    <input type="text" class="form-control" id="inp" placeholder="Ad" />
-
-</div>
-
 
 @section Scripts
     {
     <script>
-        $("#btngetlistall").click(function () {
+        
+
+        $(function () {
+            //sayfa hazır oldugunda calısan block
+
+            getAllExperience();
+        });
+
+        function gizleGoster(ID) {
+            var secilenID = document.getElementById(ID);
+            if (secilenID.style.display == "none") {
+                secilenID.style.display = "";
+            } else {
+                secilenID.style.display = "none";
+            }
+        }
+
+        function getAllExperience() {
+
             $.ajax({
                 contentType: "application/json",
                 dataType: "json",
@@ -45,11 +120,136 @@
                     let values = jQuery.parseJSON(funk);
                     console.log(values);
 
-                    let htmlst = "<table class='table table-bordered'><tr><th>ID</th><th>Name</th><th>Date</th></></tr></table>";
-                   $.each(values,())
+                    let htmlst = "<table class=table table-bordered> <tr> <th> ID </th> <th> Ad </th> <th> Başlık </th> <th> Date </th> </tr>";
+                    $.each(values, (index, value) => {
+                        htmlst += `<tr> <td>${value.ExperienceID}</td> <td>${value.Name}</td> <td>${value.Title}</td> <td>${value.Date}</td> </tr>`
+                    });
+                    htmlst += "</table>";
+                    $("#listexperience").html(htmlst);
                 }
             });
-        });
+        }
+
+        function saveExperience() {
+            let values = {
+                Title: $("#inptitle").val(),
+                Name: $("#inpname").val(),
+                Date: $("#inpdate").val()
+            };
+
+            $.ajax({
+                type: "Post",
+                url: "/Experience2/AddExperience/",
+                data: values,
+                success: function () {
+                    txtClear("inptitle");
+                    txtClear("inpname");
+                    txtClear("inpdate");
+                    getAllExperience();
+                    alert("Başarılı bir şekilde eklendi");
+                }
+            });
+        }
+
+        function updateExperience() {
+            let values = {
+                ExperienceID: $("#inpupdateid").val(),
+                Title: $("#inpupdatetitle").val(),
+                Name: $("#inpupdatename").val(),
+                Date: $("#inpupdatedate").val()
+            };
+
+            $.ajax({
+                type: "Post",
+                url: "/Experience2/UpdateExperience/",
+                data: values,
+                success: function () {
+                    txtClear("inpupdateid");
+                    txtClear("inpupdatetitle");
+                    txtClear("inpupdatename");
+                    txtClear("inpupdatedate");
+                    getAllExperience();
+                    alert("Başarılı bir şekilde güncellendi");
+                }
+            });
+        }
+
+        function getById() {
+            let id = $("#inpid").val();
+
+            $.ajax({
+                content: "application/json",
+                dataType: "json",
+                type: "Get",
+                url: "/Experience2/GetById/",
+                data: { ExperienceID: id },
+
+                success: function (funk2) {
+
+                    let result = jQuery.parseJSON(funk2);
+                    console.log(result);
+
+                    let htmlstr = "<table class=table table-hover> <tr> <th> ID </th> <th> Ad </th> <th> Başlık </th> <th> Date </th> </tr>";
+
+                    htmlstr += `<tr> <td>${result.ExperienceID}</td> <td>${result.Name}</td> <td>${result.Title}</td> <td>${result.Date}</td> </tr>`;
+                    htmlstr += "</table>";
+                    $("#listexperience").html(htmlstr); // İstersen listbyidexperience burada da gösterebilirsin
+                    txtClear("inpid");
+                }
+
+
+            });
+        }
+
+        function getById2() {
+            let id = $("#inpupdateid").val();
+
+            $.ajax({
+                content: "application/json",
+                dataType: "json",
+                type: "Get",
+                url: "/Experience2/GetById/",
+                data: { ExperienceID: id },
+
+                success: function (funk4) {
+
+                    let result = jQuery.parseJSON(funk4);
+                    console.log(result);
+
+                    $("#inpupdatetitle").val(result.Title),
+                    $("#inpupdatename").val(result.Name),
+                    $("#inpupdatedate").val(result.Date)
+                }
+
+
+            });
+        }
+
+        function removeExperience() {
+            let id = $("#inpdeleteid").val();
+            $.ajax({
+                url: "/Experience2/DeleteExperience/" + id,
+                type: "Post",
+                contentType: "application/json",
+                dataType: "json",
+                success: function (funk3) {
+                    txtClear("inpdeleteid");
+                    getAllExperience();
+                    alert("Başarılı bir şekilde silindi");
+                }
+            });
+
+
+        }
+
+        function txtClear(id) {
+            document.getElementById(id).value = ''
+        }
+
+        
+
     </script>
 }
+
+
 
