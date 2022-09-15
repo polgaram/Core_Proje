@@ -13,17 +13,16 @@
 
             <div class="p-2">
                 <button type="button" class="btn btn-outline-primary" onclick="getAllExperience();">Verileri Getir</button>
-                <button type="button" class="btn btn-outline-warning" onclick="gizleGoster('filtrele');">Filtre Paneli</button>
+                <button type="button" class="btn btn-outline-warning" onclick="filtreOperation('inpid');">Filtre Paneli</button>
                 <button type="button" class="btn btn-outline-secondary" onclick="gizleGoster('eklemePaneli');">Ekleme Paneli</button>
-                <button type="button" class="btn btn-outline-info" onclick="gizleGoster('güncellemePaneli');">Güncelleme Paneli</button>
-                <button type="button" class="btn btn-outline-danger" onclick="gizleGoster('silmepaneli');">Silme Paneli</button>
+                <button type="button" class="btn btn-outline-info" onclick="gizle('güncellemePaneli');">Güncelleme Panelini Kapat</button>
             </div>
             <div class="col-md-12" style="display: none;" id="filtrele">
                 <br />
                 <h4>Arama Paneli</h4>
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="inpid" placeholder="ID Giriniz..." aria-label="ID Giriniz..." aria-describedby="basic-addon2">
+                        <input type="text" class="form-control" onkeyup="getById()" id="inpid" placeholder="ID Giriniz..." aria-label="ID Giriniz..." aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-sm btn-warning" type="button" onclick="getById();">Getir</button>
                         </div>
@@ -48,18 +47,7 @@
                 <br />
                 <h4>Güncelleme Paneli</h4>
 
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="inpupdateid" placeholder="ID Giriniz..." aria-label="ID Giriniz..." aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-sm btn-info" type="button" onclick="getById2();">Getir</button>
-                        </div>
-                    </div>
-                </div>
-
-
-
-
+                <input type="hidden" id="inpupdateid" />
                 <input type="text" class="form-control" id="inpupdatename" placeholder="Ad" />
                 <br />
                 <input type="text" class="form-control" id="inpupdatetitle" placeholder="Başlık" />
@@ -91,7 +79,7 @@
 @section Scripts
     {
     <script>
-        
+
 
         $(function () {
             //sayfa hazır oldugunda calısan block
@@ -99,14 +87,6 @@
             getAllExperience();
         });
 
-        function gizleGoster(ID) {
-            var secilenID = document.getElementById(ID);
-            if (secilenID.style.display == "none") {
-                secilenID.style.display = "";
-            } else {
-                secilenID.style.display = "none";
-            }
-        }
 
         function getAllExperience() {
 
@@ -120,9 +100,24 @@
                     let values = jQuery.parseJSON(funk);
                     console.log(values);
 
-                    let htmlst = "<table class=table table-bordered> <tr> <th> ID </th> <th> Ad </th> <th> Başlık </th> <th> Date </th> </tr>";
+                    let htmlst = "<table class='table table-bordered'> <tr> <th> ID </th> <th> Ad </th> <th> Başlık </th> <th> Date </th> <th> Güncelle </th> <th> Sil </th> </tr>";
                     $.each(values, (index, value) => {
-                        htmlst += `<tr> <td>${value.ExperienceID}</td> <td>${value.Name}</td> <td>${value.Title}</td> <td>${value.Date}</td> </tr>`
+                        htmlst += `
+                                        <tr>
+                                        <td>${value.ExperienceID}</td>
+                                        <td>${value.Name}</td>
+                                        <td>${value.Title}</td>
+                                        <td>${value.Date}</td>
+
+                                                <td> <button type="button" class="btn btn-outline-info" onclick="updateOperation(${value.ExperienceID});">Güncelle</button>
+                                                </td>
+
+                                        <td> <button type="button" class="btn btn-outline-danger" onclick="removeExperience(${value.ExperienceID});">Sil</button>
+                                                </td>
+
+                                        </tr>`
+
+
                     });
                     htmlst += "</table>";
                     $("#listexperience").html(htmlst);
@@ -130,6 +125,62 @@
             });
         }
 
+        function updateOperation(id) {
+            goster('güncellemePaneli');
+            getUpdateForm(id);
+        }
+
+        function getUpdateForm(id) {
+            $.ajax({
+                content: "application/json",
+                dataType: "json",
+                type: "Get",
+                url: "/Experience2/GetById/",
+                data: { ExperienceID: id },
+
+                success: function (funk4) {
+
+                    let result = jQuery.parseJSON(funk4);
+                    console.log(result);
+                    $("#inpupdateid").val(id),
+                        $("#inpupdatetitle").val(result.Title),
+                        $("#inpupdatename").val(result.Name),
+                        $("#inpupdatedate").val(result.Date)
+                }
+
+
+            });
+        }
+
+        function filtreOperation(id) {
+            txtClear(id);
+            gizleGoster('filtrele');
+        }
+
+        function gizleGoster(ID) {
+            var secilenID = document.getElementById(ID);
+            if (secilenID.style.display == "none") {
+                secilenID.style.display = "";
+            } else {
+                secilenID.style.display = "none";
+            }
+        }
+
+        function gizle(ID) {
+            var secilenID = document.getElementById(ID);
+            if (secilenID.style.display == "none") {
+            } else {
+                secilenID.style.display = "none";
+            }
+        }
+
+        function goster(ID) {
+            var secilenID = document.getElementById(ID);
+            if (secilenID.style.display == "none") {
+                secilenID.style.display = "";
+            } else {
+            }
+        }
         function saveExperience() {
             let values = {
                 Title: $("#inptitle").val(),
@@ -170,63 +221,69 @@
                     txtClear("inpupdatedate");
                     getAllExperience();
                     alert("Başarılı bir şekilde güncellendi");
+
+                    gizleGoster('güncellemePaneli');
                 }
             });
         }
 
         function getById() {
             let id = $("#inpid").val();
+            if (id == 0) {
+                getAllExperience();
+            }
+            else {
+                $.ajax({
+                    content: "application/json",
+                    dataType: "json",
+                    type: "Get",
+                    url: "/Experience2/GetById/",
+                    data: { ExperienceID: id },
 
-            $.ajax({
-                content: "application/json",
-                dataType: "json",
-                type: "Get",
-                url: "/Experience2/GetById/",
-                data: { ExperienceID: id },
+                    success: function (funk2) {
 
-                success: function (funk2) {
+                        let result = jQuery.parseJSON(funk2);
+                        console.log(result);
 
-                    let result = jQuery.parseJSON(funk2);
-                    console.log(result);
+                        let htmlstr = `
+                                          <table class=table table-hover>
+                                            <tr>
+                                                <th> ID </th>
+                                                <th> Ad </th>
+                                                <th> Başlık </th>
+                                                <th> Date </th>
+                                                <th> Güncelle </th>
+                                                <th> Sil </th>
+                                            </tr>`;
 
-                    let htmlstr = "<table class=table table-hover> <tr> <th> ID </th> <th> Ad </th> <th> Başlık </th> <th> Date </th> </tr>";
+                        htmlstr += `
+                                            <tr>
+                                                <td>${result.ExperienceID}</td>
+                                                <td>${result.Name}</td>
+                                                <td>${result.Title}</td>
+                                                <td>${result.Date}</td>
 
-                    htmlstr += `<tr> <td>${result.ExperienceID}</td> <td>${result.Name}</td> <td>${result.Title}</td> <td>${result.Date}</td> </tr>`;
-                    htmlstr += "</table>";
-                    $("#listexperience").html(htmlstr); // İstersen listbyidexperience burada da gösterebilirsin
-                    txtClear("inpid");
-                }
+                                                <td> <button type="button" class="btn btn-outline-info" onclick="updateOperation(${result.ExperienceID});">Güncelle</button>
+                                                </td>
+
+                                                <td> <button type="button" class="btn btn-outline-danger" onclick="removeExperience(${result.ExperienceID});">Sil</button>
+                                                </td>
+
+                                            </tr>`;
+                        htmlstr += "</table>";
+                        $("#listexperience").html(htmlstr); // İstersen listbyidexperience burada da gösterebilirsin
+                    }
 
 
-            });
+                });
+            }
         }
 
-        function getById2() {
-            let id = $("#inpupdateid").val();
-
-            $.ajax({
-                content: "application/json",
-                dataType: "json",
-                type: "Get",
-                url: "/Experience2/GetById/",
-                data: { ExperienceID: id },
-
-                success: function (funk4) {
-
-                    let result = jQuery.parseJSON(funk4);
-                    console.log(result);
-
-                    $("#inpupdatetitle").val(result.Title),
-                    $("#inpupdatename").val(result.Name),
-                    $("#inpupdatedate").val(result.Date)
-                }
-
-
-            });
+        function txtgetById(txt) {
+            $("#inpid").click
         }
 
-        function removeExperience() {
-            let id = $("#inpdeleteid").val();
+        function removeExperience(id) {
             $.ajax({
                 url: "/Experience2/DeleteExperience/" + id,
                 type: "Post",
@@ -247,7 +304,7 @@
             document.getElementById(id).value = ''
         }
 
-        
+
 
     </script>
 }
