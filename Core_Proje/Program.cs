@@ -59,7 +59,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
 }
 
-app.UseStatusCodePages();
+app.UseStatusCodePagesWithReExecute("/ErrorPage/Error404/");
 
 app.UseStaticFiles();
 
