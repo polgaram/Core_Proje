@@ -1,25 +1,31 @@
 using BusinessLayer;
 using BusinessLayer.Abstract;
 using BusinessLayer.Concrete;
+using BusinessLayer.ValidationRules;
 using DataAccsessLayer;
 using DataAccsessLayer.Abstract;
 using DataAccsessLayer.Concrete;
 using DataAccsessLayer.EntityFramework;
 using DataAccsessLayer.IdentityConfigurations;
 using EntityLayer.Concrete;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Configuration;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//builder.Services.AddControllersWithViews();
-builder.Services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Program>());
+//Validation'a bir adet class verince otomatik buluyor.
+
+//orjinali
+builder.Services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<ExperienceValidator>());
 
 builder.Services.AddIdentityLayer(builder.Configuration);
 builder.Services.AddApplication();
