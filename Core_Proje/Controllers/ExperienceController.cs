@@ -2,6 +2,7 @@
 using BusinessLayer.ValidationRules;
 using EntityLayer.Concrete;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -36,7 +37,7 @@ namespace Core_Proje.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddExperienceAsync(Experience experience)
+        public IActionResult AddExperienceAsync(/*[CustomizeValidator(RuleSet = "clientside")]*/ Experience experience)
         {
             ValidationResult result = _validator.Validate(experience);
             if (!result.IsValid)

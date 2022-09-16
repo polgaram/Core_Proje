@@ -23,6 +23,20 @@ namespace BusinessLayer.ValidationRules
             RuleFor(x => x.Date).NotEmpty().WithMessage("Tarih alanı boş geçilemez");
             RuleFor(x => x.Date).MinimumLength(4).WithMessage("Tarih alanı 4 karakterden küçük olamaz");
             RuleFor(x => x.Date).MaximumLength(50).WithMessage("Tarih alanı 50 karakterden büyük olamaz");
+
+
+            RuleFor(x => x.ImageUrl).NotNull().WithMessage("Resim alanı boş geçilemez");
+            RuleFor(x => x.ImageUrl).NotEmpty().WithMessage("Resim alanı boş geçilemez");
+
+
+
+
+
+
+            //RuleSet("clientside", () => {
+            //    RuleFor(x => x.ImageUrl).NotNull().WithMessage("Resim alanı boş geçilemez");
+            //});
+
         }
     }
 }
