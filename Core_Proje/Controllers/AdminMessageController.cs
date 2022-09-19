@@ -1,11 +1,13 @@
 ﻿using BusinessLayer.Abstract;
 using DataAccsessLayer.Concrete;
 using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core_Proje.Controllers
 {
+    [Authorize(Roles ="Admin")]
     [Route("{controller}/{action}/{id?}")]
     public class AdminMessageController : Controller
     {

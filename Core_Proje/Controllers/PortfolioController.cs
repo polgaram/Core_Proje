@@ -4,10 +4,12 @@ using BusinessLayer.ValidationRules;
 using DataAccsessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Core_Proje.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class PortfolioController : Controller
     {
         private readonly IPortfolioService _portfolioService;
