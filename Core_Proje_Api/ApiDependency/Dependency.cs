@@ -7,11 +7,11 @@ namespace Core_Proje_Api.ApiDependency
     {
         public static void AddIdentityLayer(this IServiceCollection Services, IConfiguration Configuration)
         {
-            Services.AddDbContext<Context>(ops =>
+            Services.AddDbContext<ApiContext>(ops =>
             {
                 ops.UseSqlServer(Configuration.GetConnectionString("MyIdentityConnectionString"), ops =>
                 {
-                    ops.MigrationsAssembly(typeof(Context).Assembly.FullName);
+                    ops.MigrationsAssembly(typeof(ApiContext).Assembly.FullName);
                 });
             });
 

@@ -10,9 +10,9 @@ namespace Core_Proje_Api.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly Context _context;
+        private readonly ApiContext _context;
 
-        public CategoryController(Context context)
+        public CategoryController(ApiContext context)
         {
             _context = context;
         }

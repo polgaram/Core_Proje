@@ -36,16 +36,6 @@ namespace Core_Proje.Areas.Writer.Controllers
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (p.Password != null)
             {
-                if (p.Picture != null)
-                {
-                    var resource = Directory.GetCurrentDirectory();
-                    var extension = Path.GetExtension(p.Picture.FileName);
-                    var imagename = Guid.NewGuid() + extension;
-                    var savelocation = $"{resource}/wwwroot/userimage/{imagename}";
-                    var stream = new FileStream(savelocation, FileMode.Create);
-                    await p.Picture.CopyToAsync(stream);
-                    user.ImageUrl = imagename;
-                }
                 user.Name = p.Name;
                 user.SurName = p.SurName;
                 if (p.NewPassword != null && p.PasswordConfirm != null)
@@ -56,17 +46,48 @@ namespace Core_Proje.Areas.Writer.Controllers
                         user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, p.NewPassword);
                     }
                 }
-
-
-
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    //return RedirectToAction("Index", "Writer/DashboardWriter");
                     return Redirect("/Writer/DashboardWriter/Index/");
                 }
             }
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateImage()
+        {
+            var values = await _userManager.FindByNameAsync(User.Identity.Name);
+            UserEditViewModel model = new UserEditViewModel
+            {
+                PictureUrl = values.ImageUrl
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateImage(UserEditViewModel p)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (p.Picture != null)
+                {
+                    var resource = Directory.GetCurrentDirectory();
+                    var extension = Path.GetExtension(p.Picture.FileName);
+                    var imagename = Guid.NewGuid() + extension;
+                    var savelocation = $"{resource}/wwwroot/userimage/{imagename}";
+                    var stream = new FileStream(savelocation, FileMode.Create);
+                    await p.Picture.CopyToAsync(stream);
+                    user.ImageUrl = imagename;
+                }
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return Redirect("/Writer/DashboardWriter/Index/");
+                }
+            return View();
+        }
+
     }
 }

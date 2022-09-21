@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Core_Proje_Api.Migrations
 {
-    [DbContext(typeof(Context))]
+    [DbContext(typeof(ApiContext))]
     [Migration("20220917073804_mig_init")]
     partial class mig_init
     {

@@ -1,6 +1,4 @@
-﻿using Microsoft.Build.Framework;
-
-namespace Core_Proje.Areas.Writer.Models
+﻿namespace Core_Proje.Areas.Writer.Models
 {
     public class UserEditViewModel
     {
