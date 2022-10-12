@@ -53,6 +53,7 @@ namespace Core_Proje.Areas.Writer.Controllers
                 }
             }
             return View();
+
         }
 
         [HttpGet]
