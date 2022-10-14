@@ -257,7 +257,6 @@
     <None Include="wwwroot\skydash\fonts\Roboto\Roboto-Light.woff2" />
     <None Include="wwwroot\skydash\fonts\Roboto\Roboto-Medium.woff2" />
     <None Include="wwwroot\skydash\fonts\Roboto\Roboto-Regular.woff2" />
-    <None Include="wwwroot\skydash\gulpfile.js" />
     <None Include="wwwroot\skydash\images\dashboard\people.svg" />
     <None Include="wwwroot\skydash\images\dashboard\people11.svg" />
     <None Include="wwwroot\skydash\images\dashboard\shape-1.svg" />
